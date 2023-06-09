@@ -7,6 +7,19 @@ import Navbar from './components/navbar';
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
 
+  const products = [
+    { id: 1, name: "Product 1", description: "This is product 1", price: 19.99, image: "https://example.com/image1.jpg" },
+    { id: 2, name: "Product 2", description: "This is product 2", price: 29.99, image: "https://example.com/image2.jpg" },
+    { id: 3, name: "Product 3", description: "This is product 3", price: 39.99, image: "https://example.com/image3.jpg" },
+    { id: 4, name: "Product 4", description: "This is product 4", price: 49.99, image: "https://example.com/image4.jpg" },
+    { id: 5, name: "Product 5", description: "This is product 5", price: 59.99, image: "https://example.com/image5.jpg" },
+  ];
+
+  const onAddToCart = (productId) => {
+    const product = products.find(product => product.id === productId);
+    setCartItems([...cartItems, product]);
+  };
+
   return (
     <div>
       <Navbar cartItems={cartItems} />
