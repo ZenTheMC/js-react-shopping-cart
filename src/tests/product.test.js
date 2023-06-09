@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen, fireEvent } from "@testing-library/react";
+// import userEvent from "@testing-library/user-event";
 import Product from "../components/product";
 import "@testing-library/jest-dom";
 
@@ -33,7 +33,9 @@ test("calls onAddToCart when add to cart button is clicked", () => {
 
     render(<Product product={mockProduct} onAddToCart={mockOnAddToCart} />);
 
-    userEvent.click(screen.getByText(/add to cart/i));
+    // click event wasn't working for this second test, because of conventiional userEvent, but worked with older fireEvent
+    // userEvent.click(screen.getByText(/add to cart/i));
+    fireEvent.click(screen.getByText(/add to cart/i));
 
     expect(mockOnAddToCart).toHaveBeenCalledWith(mockProduct.id);
     expect(mockOnAddToCart).toHaveBeenCalledTimes(1);
