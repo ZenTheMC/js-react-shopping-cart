@@ -4,6 +4,7 @@ import Home from './pages/home';
 import Shop from './pages/shop';
 import Navbar from './components/navbar';
 import Product from './components/product';
+import Cart from './components/cart';
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -21,6 +22,10 @@ const App = () => {
     setCartItems([...cartItems, product]);
   };
 
+  const onRemoveFromCart = (productId) => {
+    setCartItems(cartItems.filter(item => item.id !== productId));
+  };
+
   return (
     <div>
       <Navbar cartItems={cartItems} />
@@ -28,6 +33,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop products={products} />} />
         <Route path="/product/:id" element={<Product products={products} onAddToCart={onAddToCart} />} />
+        <Route path="/cart" element={<Cart cartItems={cartItems} onRemoveFromCart={onRemoveFromCart} />} />
       </Routes>
     </div>
   );
