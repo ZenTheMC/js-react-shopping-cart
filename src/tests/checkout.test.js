@@ -23,11 +23,10 @@ test("calls setCartItems with an empty array when Confirm Order button is clicke
 
 test("displays a thank you message when Confirm Order button is clicked", () => {
     const mockSetCartItems = jest.fn();
-    const mockAlert = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
     render(<Checkout setCartItems={mockSetCartItems} />);
 
-    fireEvent.click(screen.getByText("Confirm Order"));
+    fireEvent.click(screen.getByText(/Confirm Order/i));
 
-    expect(mockAlert).toHaveBeenCalledWith("Thank you for your order!");
+    expect(screen.getByText(/thank you for your order/i)).toBeInTheDocument();
 });

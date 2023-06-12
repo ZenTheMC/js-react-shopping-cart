@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 const Product = ({ products, onAddToCart }) => {
     const { id } = useParams();
     const product = products.find(product => product.id === Number(id));
+    const [quantity, setQuantity] = useState(1);
 
     if (!product) {
         return <div>Product not found</div>
     }
+
+    const handleAddToCart = () => {
+        onAddToCart(product.id, Number(quantity));
+        setQuantity(1);
+    };    
 
     return (
         <div>
@@ -15,14 +21,12 @@ const Product = ({ products, onAddToCart }) => {
             <h2>{product.name}</h2>
             <p>{product.description}</p>
             <p>${product.price}</p>
-            <button onClick={() => {
-                // Was trying to debug click event not working, so console, but it didn't show up
-                // Fixed it by switching from conventional userEvent to older fireEvent in test file
-                // console.log(`Adding product with id ${product.id} to cart`);
-                onAddToCart(product.id)
-            }}>Add to Cart</button>
+            <input type="number" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
+            <button onClick={() => setQuantity(quantity + 1)}>+</button>
+            <button onClick={() => setQuantity(quantity - 1)}>-</button>
+            <button onClick={handleAddToCart}>Add to Cart</button>
         </div>
     );
-}
+};
 
 export default Product;
