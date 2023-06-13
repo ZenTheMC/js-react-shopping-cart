@@ -1,0 +1,25 @@
+body {
+    background-color: #96542e;
+}
+
+.homeContainer {
+    position: relative;
+    height: calc(100vh - 120px);
+    background: url('../images/home.jpg') no-repeat center center/cover;
+}
+
+.homeText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 600px) {
+    .homeText {
+        font-size: 1.5em;
+    }
+}

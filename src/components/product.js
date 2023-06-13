@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import styles from '../styles/product.module.css';
 
 const Product = ({ products, onAddToCart }) => {
     const { id } = useParams();
@@ -17,7 +18,7 @@ const Product = ({ products, onAddToCart }) => {
 
     return (
         <div>
-            <img src={product.image} alt={product.name} />
+            <img className={styles.productImage} src={product.image} alt={product.name} />
             <h2>{product.name}</h2>
             <p>{product.description}</p>
             <p>${product.price}</p>

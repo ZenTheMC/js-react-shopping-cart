@@ -7,16 +7,21 @@ import Product from './components/product';
 import Cart from './components/cart';
 import Checkout from './pages/checkout';
 import styles from './styles/app.module.css';
+import apple from './images/apple.jpg';
+import cake from './images/cake.jpg';
+import iceCream from './images/icecream.jpg';
+import pizza from './images/pizza.jpg';
+import robot from './images/robot.jpg';
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
 
   const [products] = useState([
-    { id: 1, name: "Product 1", description: "This is product 1", price: 19.99, image: "https://example.com/image1.jpg" },
-    { id: 2, name: "Product 2", description: "This is product 2", price: 29.99, image: "https://example.com/image2.jpg" },
-    { id: 3, name: "Product 3", description: "This is product 3", price: 39.99, image: "https://example.com/image3.jpg" },
-    { id: 4, name: "Product 4", description: "This is product 4", price: 49.99, image: "https://example.com/image4.jpg" },
-    { id: 5, name: "Product 5", description: "This is product 5", price: 59.99, image: "https://example.com/image5.jpg" },
+    { id: 1, name: "Apple", description: "An apple a day keeps the doctor away!", price: 0.99, image: apple },
+    { id: 2, name: "Cake", description: "The cake is a lie!", price: 24.99, image: cake },
+    { id: 3, name: "Ice Cream", description: "Ben n Jerry's is over 1000 calories per pint! But it's sooo good..", price: 7.99, image: iceCream },
+    { id: 4, name: "Pizza", description: "Papa Johns, Pizza Hut, or Dominos? I like Papa's proportions of sauce, cheese, bread.", price: 17.99, image: pizza },
+    { id: 5, name: "Robot", description: "This is my future Robot Assistant that everyone has, that does everything for me, and this is the real price!", price: 499.99, image: robot },
 ]);
 
   const onAddToCart = (productId, quantity) => {
@@ -51,5 +56,3 @@ const App = () => {
 }
 
 export default App;
-
-// FIX ROUNDING! 
