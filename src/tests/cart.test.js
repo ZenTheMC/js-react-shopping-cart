@@ -137,3 +137,20 @@ test("when an item is removed from the cart, its quantity is reset to 1", () => 
 
     expect(quantityInput.value).toBe('1');
 });
+
+test("total price is rounded to two decimal places", () => {
+    const mockCartItems = [
+        { id: 1, name: "Product 1", price: 66.65 },
+        { id: 2, name: "Product 2", price: 66.65 },
+    ];
+
+    render(
+        <MemoryRouter>
+            <Cart cartItems={mockCartItems} onRemoveFromCart={() => {}} />
+        </MemoryRouter>
+    );
+
+    const totalPrice = parseFloat(mockCartItems.reduce((total, item) => total + item.price, 0).toFixed(2));
+
+    expect(screen.getByText(`Total: $${totalPrice}`)).toBeInTheDocument();
+});

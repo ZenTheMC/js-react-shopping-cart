@@ -13,7 +13,7 @@ const Cart = ({ cartItems, onRemoveFromCart }) => {
         setQuantities({ ...quantities, [id]: 1 });
     };    
 
-    const totalPrice = cartItems.reduce((total, item) => total + item.price * quantities[item.id], 0);
+    const totalPrice = parseFloat(cartItems.reduce((total, item) => total + item.price * quantities[item.id], 0).toFixed(2));
 
     return (
         <div>
