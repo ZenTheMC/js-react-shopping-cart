@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const Cart = ({ cartItems, onRemoveFromCart }) => {
-    const [quantities, setQuantities] = useState(cartItems.reduce((acc, item) => ({ ...acc, [item.id]: 1 }), {}));
+const Cart = ({ cartItems, onRemoveFromCart, setCartItems }) => {
+    const [quantities, setQuantities] = useState({});
 
-    const handleQuantityChange = (id, quantity) => {
-        setQuantities({ ...quantities, [id]: quantity });
-    };
+    useEffect(() => {
+        setQuantities(
+            cartItems.reduce((acc, item) => ({ ...acc, [item.id]: item.quantity }), {})
+        );
+    }, [cartItems]);
 
     const handleRemoveFromCart = (id) => {
         onRemoveFromCart(id);
         setQuantities({ ...quantities, [id]: 1 });
-    };    
+    };
 
-    const totalPrice = parseFloat(cartItems.reduce((total, item) => total + item.price * quantities[item.id], 0).toFixed(2));
+    const handleQuantityChange = (id, newQuantity) => {
+        setQuantities({ ...quantities, [id]: newQuantity });
+    
+        const updatedCartItems = cartItems.map(item =>
+            item.id === id ? { ...item, quantity: parseInt(newQuantity) } : item
+        );
+        setCartItems(updatedCartItems);
+    };
+
+    const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
     return (
         <div>
@@ -22,17 +33,19 @@ const Cart = ({ cartItems, onRemoveFromCart }) => {
                 <div key={item.id}>
                     <p>{item.name}</p>
                     <p>${item.price}</p>
-                    <input
-                        type="number"
-                        min="1"
-                        value={quantities[item.id]}
-                        onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-                        data-testid={`quantity-${item.id}`}
-                    />
+                    <p>
+                        Quantity: 
+                        <input
+                            type="number"
+                            value={item.quantity}
+                            onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                            data-testid={`quantity-${item.id}`}
+                        />
+                    </p>
                     <button onClick={() => handleRemoveFromCart(item.id)}>Remove</button>
                 </div>
             ))}
-            <p>Total: ${totalPrice}</p>
+            <p>Total: ${totalPrice.toFixed(2)}</p>
             <Link to="/checkout">
                 <button>Checkout</button>
             </Link>

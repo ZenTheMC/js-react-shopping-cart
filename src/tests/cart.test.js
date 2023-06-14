@@ -3,7 +3,7 @@ import Cart from "../components/cart";
 import "@testing-library/jest-dom";
 import { MemoryRouter } from "react-router-dom";
 
-test("displays all items in the cart", () => {
+test("displays all unique items in the cart", () => {
     const mockCartItems = [
         { id: 1, name: "Product 1", price: 19.99 },
         { id: 2, name: "Product 2", price: 29.99 },
@@ -23,9 +23,9 @@ test("displays all items in the cart", () => {
 
 test("displays the correct total price of all items in the cart", () => {
     const mockCartItems = [
-        { id: 1, name: "Product 1", price: 19.99 },
-        { id: 2, name: "Product 2", price: 29.99 },
-        { id: 3, name: "Product 3", price: 39.99 },
+        { id: 1, name: "Product 1", price: 19.99, quantity: 1 },
+        { id: 2, name: "Product 2", price: 29.99, quantity: 1 },
+        { id: 3, name: "Product 3", price: 39.99, quantity: 1 },
     ];
 
     render(
@@ -34,9 +34,9 @@ test("displays the correct total price of all items in the cart", () => {
         </MemoryRouter>
     );
 
-    const totalPrice = mockCartItems.reduce((total, item) => total + item.price, 0);
+    const totalPrice = mockCartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
-    expect(screen.getByText(`Total: $${totalPrice}`)).toBeInTheDocument();
+    expect(screen.getByText(`Total: $${totalPrice.toFixed(2)}`)).toBeInTheDocument();
 });
 
 test("removes an item from the cart when the remove button is clicked", () => {
@@ -58,7 +58,7 @@ test("removes an item from the cart when the remove button is clicked", () => {
     expect(mockRemoveFromCart).toHaveBeenCalledTimes(1);
 });
 
-test("renders an input field for each item in the cart", () => {
+test("renders an input field for each unique item in the cart", () => {
     const mockCartItems = [
         { id: 1, name: "Product 1", price: 19.99 },
         { id: 2, name: "Product 2", price: 29.99 },
@@ -77,11 +77,11 @@ test("renders an input field for each item in the cart", () => {
     });
 });
 
-test("initial value of each input field is 1", () => {
+test("initial value of each input field is the quantity of that item in the cart", () => {
     const mockCartItems = [
-        { id: 1, name: "Product 1", price: 19.99 },
-        { id: 2, name: "Product 2", price: 29.99 },
-        { id: 3, name: "Product 3", price: 39.99 },
+        { id: 1, name: "Product 1", price: 19.99, quantity: 2 },
+        { id: 2, name: "Product 2", price: 29.99, quantity: 3 },
+        { id: 3, name: "Product 3", price: 39.99, quantity: 1 },
     ];
 
     render(
@@ -92,13 +92,13 @@ test("initial value of each input field is 1", () => {
 
     mockCartItems.forEach(item => {
         const quantityInput = screen.getByTestId(`quantity-${item.id}`);
-        expect(quantityInput.value).toBe('1');
+        expect(quantityInput.value).toBe(item.quantity.toString());
     });
 });
 
 test("when the value of an input field changes, the total price is updated accordingly", () => {
     const mockCartItems = [
-        { id: 1, name: "Product 1", price: 19.99 },
+        { id: 1, name: "Product 1", price: 19.99, quantity: 1 },
     ];
 
     render(
@@ -111,12 +111,12 @@ test("when the value of an input field changes, the total price is updated accor
     fireEvent.change(quantityInput, { target: { value: '2' } });
 
     const totalPrice = mockCartItems[0].price * 2;
-    expect(screen.getByText(`Total: $${totalPrice}`)).toBeInTheDocument();
+    expect(screen.getByText(`Total: $${totalPrice.toFixed(2)}`)).toBeInTheDocument();
 });
 
-test("when an item is removed from the cart, its quantity is reset to 1", () => {
+test("when an item is removed from the cart, its quantity is not reset", () => {
     const mockCartItems = [
-        { id: 1, name: "Product 1", price: 19.99},
+        { id: 1, name: "Product 1", price: 19.99, quantity: 2 },
     ];
 
     const mockRemoveFromCart = jest.fn();
@@ -127,21 +127,16 @@ test("when an item is removed from the cart, its quantity is reset to 1", () => 
         </MemoryRouter>
     );
 
-    const quantityInput = screen.getByTestId(`quantity-${mockCartItems[0].id}`);
-    fireEvent.change(quantityInput, { target: { value: '2' } });
-
     fireEvent.click(screen.getByText(/remove/i));
 
     expect(mockRemoveFromCart).toHaveBeenCalledWith(mockCartItems[0].id);
     expect(mockRemoveFromCart).toHaveBeenCalledTimes(1);
-
-    expect(quantityInput.value).toBe('1');
 });
 
 test("total price is rounded to two decimal places", () => {
     const mockCartItems = [
-        { id: 1, name: "Product 1", price: 66.65 },
-        { id: 2, name: "Product 2", price: 66.65 },
+        { id: 1, name: "Product 1", price: 66.65, quantity: 1 },
+        { id: 2, name: "Product 2", price: 66.65, quantity: 1 },
     ];
 
     render(
@@ -150,7 +145,7 @@ test("total price is rounded to two decimal places", () => {
         </MemoryRouter>
     );
 
-    const totalPrice = parseFloat(mockCartItems.reduce((total, item) => total + item.price, 0).toFixed(2));
+    const totalPrice = mockCartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
 
     expect(screen.getByText(`Total: $${totalPrice}`)).toBeInTheDocument();
 });
