@@ -43,10 +43,11 @@ const App = () => {
     setCartItems(cartItems.filter(item => item.id !== productId));
   };
 
+  const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <div className={styles.appContainer}>
-      <Navbar cartItems={cartItems} className={styles.navbar} />
+      <Navbar cartItems={cartItems} totalQuantity={totalQuantity} className={styles.navbar} />
       <div className={styles.mainContent}>
         <Routes>
           <Route path="/" element={<Home />} />

@@ -11,7 +11,7 @@ const Checkout = ({ setCartItems }) => {
         <div>
             <h2>Checkout</h2>
             <button onClick={handleCheckout}>Confirm Order</button>
-            {isCheckoutSuccessful && <p>Thank you for your order!</p>}
+            {isCheckoutSuccessful && <p>Thank you! The Future is now!</p>}
         </div>
     );
 }

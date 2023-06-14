@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 
 const Cart = ({ cartItems, onRemoveFromCart, setCartItems }) => {
     const [quantities, setQuantities] = useState({});
+    const [totalPrice, setTotalPrice] = useState(
+        cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
+    );
 
     useEffect(() => {
-        setQuantities(
-            cartItems.reduce((acc, item) => ({ ...acc, [item.id]: item.quantity }), {})
+        setTotalPrice(
+            cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
         );
     }, [cartItems]);
 
@@ -16,15 +19,18 @@ const Cart = ({ cartItems, onRemoveFromCart, setCartItems }) => {
     };
 
     const handleQuantityChange = (id, newQuantity) => {
+        newQuantity = parseInt(newQuantity, 10);
         setQuantities({ ...quantities, [id]: newQuantity });
     
         const updatedCartItems = cartItems.map(item =>
-            item.id === id ? { ...item, quantity: parseInt(newQuantity) } : item
+            item.id === id ? { ...item, quantity: newQuantity } : item
         );
         setCartItems(updatedCartItems);
+    
+        // Calculate the new total price
+        const newTotalPrice = updatedCartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+        setTotalPrice(newTotalPrice);
     };
-
-    const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
     return (
         <div>

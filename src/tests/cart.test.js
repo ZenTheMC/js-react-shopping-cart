@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import Cart from "../components/cart";
 import "@testing-library/jest-dom";
 import { MemoryRouter } from "react-router-dom";
+import { BrowserRouter as Router } from 'react-router-dom';
 
 test("displays all unique items in the cart", () => {
     const mockCartItems = [
@@ -96,22 +97,25 @@ test("initial value of each input field is the quantity of that item in the cart
     });
 });
 
-test("when the value of an input field changes, the total price is updated accordingly", () => {
+test("when the value of an input field changes, the total price is updated accordingly", async () => {
     const mockCartItems = [
         { id: 1, name: "Product 1", price: 19.99, quantity: 1 },
     ];
-
+      
+    const mockSetCartItems = jest.fn();
+    
     render(
-        <MemoryRouter>
-            <Cart cartItems={mockCartItems} onRemoveFromCart={() => {}} />
-        </MemoryRouter>
+        <Router>
+          <Cart cartItems={mockCartItems} setCartItems={mockSetCartItems} />
+        </Router>
     );
 
     const quantityInput = screen.getByTestId(`quantity-${mockCartItems[0].id}`);
     fireEvent.change(quantityInput, { target: { value: '2' } });
 
     const totalPrice = mockCartItems[0].price * 2;
-    expect(screen.getByText(`Total: $${totalPrice.toFixed(2)}`)).toBeInTheDocument();
+    const totalPriceElement = await screen.findByText(`Total: $${totalPrice.toFixed(2)}`);
+    expect(totalPriceElement).toBeInTheDocument();
 });
 
 test("when an item is removed from the cart, its quantity is not reset", () => {

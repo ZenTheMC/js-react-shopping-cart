@@ -26,7 +26,7 @@ test("displays a thank you message when Confirm Order button is clicked", () => 
 
     render(<Checkout setCartItems={mockSetCartItems} />);
 
-    fireEvent.click(screen.getByText(/Confirm Order/i));
+    fireEvent.click(screen.getByText(/confirm order/i));
 
-    expect(screen.getByText(/thank you for your order/i)).toBeInTheDocument();
+    expect(screen.getByText(/Thank you! The Future is now!/i)).toBeInTheDocument();
 });
