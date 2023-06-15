@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from '../styles/checkout.module.css';
 
 const Checkout = ({ setCartItems }) => {
     const [isCheckoutSuccessful, setIsCheckoutSuccessful] = useState(false);
@@ -9,9 +10,9 @@ const Checkout = ({ setCartItems }) => {
 
     return (
         <div>
-            <h2>Checkout</h2>
-            <button onClick={handleCheckout}>Confirm Order</button>
-            {isCheckoutSuccessful && <p>Thank you! The Future is now!</p>}
+            <h2 className={styles.checkoutTitle} >Checkout</h2>
+            <button className={styles.confirmButton} onClick={handleCheckout}>Confirm Order</button>
+            {isCheckoutSuccessful && <p className={styles.orderMessage} >Thank you! The Future is now!</p>}
         </div>
     );
 }

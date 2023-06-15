@@ -19,13 +19,13 @@ const Product = ({ products, onAddToCart }) => {
     return (
         <div>
             <img className={styles.productImage} src={product.image} alt={product.name} />
-            <h2>{product.name}</h2>
-            <p>{product.description}</p>
-            <p>${product.price}</p>
+            <h2 className={styles.productName}>{product.name}</h2>
+            <p className={styles.productDescription}>{product.description}</p>
+            <p className={styles.productPrice}>${product.price}</p>
             <input type="number" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
-            <button onClick={() => setQuantity(quantity + 1)}>+</button>
-            <button onClick={() => setQuantity(quantity - 1)}>-</button>
-            <button onClick={handleAddToCart}>Add to Cart</button>
+            <button className={styles.plusButton} onClick={() => setQuantity(quantity + 1)}>+</button>
+            <button className={styles.minusButton} onClick={() => setQuantity(quantity - 1)}>-</button>
+            <button className={styles.addButton} onClick={handleAddToCart}>Add to Cart</button>
         </div>
     );
 };

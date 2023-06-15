@@ -15,7 +15,7 @@
     padding: 10px 0;
     margin-bottom: 20px;
     background-color: #d6a04e;
-    font-size: 24px;
+    font-size: 28px;
 }
 
 .navbar a {
@@ -36,6 +36,13 @@
 
     .navbar a {
         margin: 10px 0;
+    }
+}
+
+@media (max-width: 1000px) {
+    button {
+        background-color: #e4d614;
+        box-shadow: 2px 2px 2px 2px black;
     }
 }
 

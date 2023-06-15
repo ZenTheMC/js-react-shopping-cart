@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import styles from '../styles/cart.module.css';
 
 const Cart = ({ cartItems, onRemoveFromCart, setCartItems }) => {
     const [quantities, setQuantities] = useState({});
@@ -34,13 +35,13 @@ const Cart = ({ cartItems, onRemoveFromCart, setCartItems }) => {
 
     return (
         <div>
-            <h2>Your Cart</h2>
+            <h2 className={styles.cartTitle}>Your Cart</h2>
             {cartItems.map(item => (
                 <div key={item.id}>
-                    <p>{item.name}</p>
-                    <p>${item.price}</p>
+                    <p className={styles.productName}>{item.name}</p>
+                    <p className={styles.productPrice}>${item.price}</p>
                     <p>
-                        Quantity: 
+                        <span className={styles.quantityText}>Quantity:</span>
                         <input
                             type="number"
                             value={item.quantity}
@@ -48,12 +49,12 @@ const Cart = ({ cartItems, onRemoveFromCart, setCartItems }) => {
                             data-testid={`quantity-${item.id}`}
                         />
                     </p>
-                    <button onClick={() => handleRemoveFromCart(item.id)}>Remove</button>
+                    <button className={styles.removeButton} onClick={() => handleRemoveFromCart(item.id)}>Remove</button>
                 </div>
             ))}
-            <p>Total: ${totalPrice.toFixed(2)}</p>
+            <p className={styles.totalAmount}>Total: ${totalPrice.toFixed(2)}</p>
             <Link to="/checkout">
-                <button>Checkout</button>
+                <button className={styles.checkoutButton} >Checkout</button>
             </Link>
         </div>
     );

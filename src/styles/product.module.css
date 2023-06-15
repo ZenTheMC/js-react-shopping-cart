@@ -3,8 +3,67 @@
     height: 536.25px;
 }
 
-@media (max-width: 600px) {
+.productName {
+    font-size: 1.2em;
+}
+
+.productDescription {
+    font-size: 1em;
+}
+
+.plusButton {
+    font-size: 1em;
+    padding: 5px;
+}
+
+.minusButton {
+    font-size: 1em;
+    padding: 5px;
+}
+
+.addButton {
+    font-size: 1em;
+    padding: 5px;
+}
+
+input {
+    font-size: 1em;
+}
+
+@media (max-width: 1000px) {
+
     .productImage {
         width: 100%;
+    }
+
+    .productName {
+        font-size: 3em;
+    }
+
+    .productDescription {
+        font-size: 2.5em;
+    }
+
+    .productPrice {
+        font-size: 2.5em;
+    }
+
+    .plusButton {
+        font-size: 1.5em;
+        padding: 1em;
+    }
+    
+    .minusButton {
+        font-size: 1.5em;
+        padding: 1em;
+    }
+
+    .addButton {
+        font-size: 1.5em;
+        padding: 1em;
+    }
+
+    input {
+        font-size: 2.5em;
     }
 }
